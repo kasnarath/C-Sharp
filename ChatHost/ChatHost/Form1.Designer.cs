@@ -31,14 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.toolStripButtonServerState = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonGlobalLogLoad = new System.Windows.Forms.ToolStripButton();
+            this.toolStripComboBoxPort = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.dataGridViewClients = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewLog = new System.Windows.Forms.DataGridView();
             this.TimestampColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LogEntryColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripButtonGlobalLogLoad = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
@@ -62,12 +63,36 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonServerState,
-            this.toolStripButtonGlobalLogLoad});
+            this.toolStripButtonGlobalLogLoad,
+            this.toolStripComboBoxPort});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1034, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButtonGlobalLogLoad
+            // 
+            this.toolStripButtonGlobalLogLoad.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonGlobalLogLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonGlobalLogLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonGlobalLogLoad.Image")));
+            this.toolStripButtonGlobalLogLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonGlobalLogLoad.Name = "toolStripButtonGlobalLogLoad";
+            this.toolStripButtonGlobalLogLoad.Size = new System.Drawing.Size(65, 22);
+            this.toolStripButtonGlobalLogLoad.Text = "Global log";
+            this.toolStripButtonGlobalLogLoad.Click += new System.EventHandler(this.toolStripButtonGlobalLogLoad_Click);
+            // 
+            // toolStripComboBoxPort
+            // 
+            this.toolStripComboBoxPort.Items.AddRange(new object[] {
+            "1337",
+            "1863",
+            "42"});
+            this.toolStripComboBoxPort.MaxLength = 4;
+            this.toolStripComboBoxPort.Name = "toolStripComboBoxPort";
+            this.toolStripComboBoxPort.Size = new System.Drawing.Size(121, 25);
+            this.toolStripComboBoxPort.Sorted = true;
+            this.toolStripComboBoxPort.ToolTipText = "Select or enter port number";
             // 
             // splitContainerMain
             // 
@@ -111,6 +136,23 @@
             this.dataGridViewClients.TabIndex = 6;
             this.dataGridViewClients.SelectionChanged += new System.EventHandler(this.dataGridViewClients_SelectionChanged);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "ClientId";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Client ID";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "ClientIP";
+            this.dataGridViewTextBoxColumn2.HeaderText = "IP address";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
             // dataGridViewLog
             // 
             this.dataGridViewLog.AllowUserToAddRows = false;
@@ -140,36 +182,10 @@
             // LogEntryColumn
             // 
             this.LogEntryColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.LogEntryColumn.DataPropertyName = "Entry";
             this.LogEntryColumn.HeaderText = "Log entry";
             this.LogEntryColumn.Name = "LogEntryColumn";
             this.LogEntryColumn.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "ClientId";
-            this.dataGridViewTextBoxColumn1.HeaderText = "Client ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "ClientIP";
-            this.dataGridViewTextBoxColumn2.HeaderText = "IP address";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // toolStripButtonGlobalLogLoad
-            // 
-            this.toolStripButtonGlobalLogLoad.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButtonGlobalLogLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonGlobalLogLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonGlobalLogLoad.Image")));
-            this.toolStripButtonGlobalLogLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonGlobalLogLoad.Name = "toolStripButtonGlobalLogLoad";
-            this.toolStripButtonGlobalLogLoad.Size = new System.Drawing.Size(65, 22);
-            this.toolStripButtonGlobalLogLoad.Text = "Global log";
-            this.toolStripButtonGlobalLogLoad.Click += new System.EventHandler(this.toolStripButtonGlobalLogLoad_Click);
             // 
             // Form1
             // 
@@ -199,12 +215,13 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.SplitContainer splitContainerMain;
         private System.Windows.Forms.DataGridView dataGridViewLog;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LogEntryColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TimestampColumn;
         private System.Windows.Forms.DataGridView dataGridViewClients;
+        private System.Windows.Forms.ToolStripButton toolStripButtonGlobalLogLoad;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxPort;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.ToolStripButton toolStripButtonGlobalLogLoad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LogEntryColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimestampColumn;
     }
 }
 

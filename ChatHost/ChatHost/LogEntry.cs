@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatHost
 {
-    class LogEntry
+    public class LogEntry
     {
         public DateTime Timestamp { get; set; }
         public string Entry { get; set; }
