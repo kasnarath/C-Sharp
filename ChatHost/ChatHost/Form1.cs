@@ -17,6 +17,8 @@ namespace ChatHost
     {
         List<LogEntry> GlobalLog = new List<LogEntry>();
         BindingList<Client> Clients = new BindingList<Client>();
+        Thread ServerThread = null;
+        bool KillServerThread = false;
         delegate void ServerThreadDelegate(bool bringOnline);
         delegate void ServerThreadFeedBackDelegate(string onlineButtonText, string formCaption);
         delegate void ServerThreadAddClient(Client C);
@@ -25,23 +27,40 @@ namespace ChatHost
         {
             InitializeComponent();
             dataGridViewClients.DataSource = Clients;
+            ServerThread = new Thread(ChangeSeverState);
+            ServerThread.Name = "Listener thread";
+            ServerThread.IsBackground = true;
         }
 
         private void toolStripButtonServerState_Click(object sender, EventArgs e)
         {
-            Thread ServerThread = new Thread(ChangeSeverState);
-            ServerThread.Name = "Server Thread";
-            ServerThread.IsBackground = true;
-            ServerThread.Start();
+            if (!ServerThread.IsAlive)
+            {
+                KillServerThread = false;
+                ServerThread.Start();
+                toolStripButtonServerState.Text = "Online";
+            }
+            else
+            {
+                KillServerThread = true;
+                if (ServerThread.Join(1000))
+                {
+                    toolStripButtonServerState.Text = "Offline";
+                }
+                else
+                {
+                    MessageBox.Show("Thread refuses to die!");
+                }
+            }
         }
 
         private void ServerThreadFeedBack(string onlineButtonText, string formCaption)
         {
-            if (onlineButtonText != "")
+            if (onlineButtonText != null)
             {
                 toolStripButtonServerState.Text = onlineButtonText;
             }
-            if (formCaption != "")
+            if (formCaption != null)
             {
                 this.Text = formCaption;
             }
@@ -54,15 +73,24 @@ namespace ChatHost
 
         private void ChangeSeverState(object state)
         {
-            bool OnlineState = false;
             ServerThreadFeedBackDelegate FB = new ServerThreadFeedBackDelegate(ServerThreadFeedBack);
             ServerThreadAddClient AC = new ServerThreadAddClient(AddClient);
 
-            //Socket Host = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            TcpListener Listener = TcpListener.Create(1863); // The MSN messenger port
-            while (OnlineState)
+            TcpListener Listener = TcpListener.Create(1337); // 1863 is the MSN messenger port            
+            Listener.Start();
+            
+            Encoding Enc = Encoding.Unicode;
+            while (!KillServerThread)
             {
-                
+                if (Listener.Pending())
+                {
+                    TcpClient C = Listener.AcceptTcpClient();
+                    this.Invoke(AC, new Client("UserPlaceholder", C));
+                }
+                else
+                {   // no pending connections; Go to sleep
+                    Thread.Sleep(100); 
+                }    
             }
         }
 
@@ -79,7 +107,7 @@ namespace ChatHost
 
         private void dataGridViewClients_SelectionChanged(object sender, EventArgs e)
         {
-            if(dataGridViewClients.SelectedRows[0] != null)
+            if(dataGridViewClients.SelectedRows != null)
             {
                 LoadLog(Clients[dataGridViewClients.CurrentRow.Index].ClientLog);
             }
@@ -91,6 +119,7 @@ namespace ChatHost
 
         private void toolStripButtonGlobalLogLoad_Click(object sender, EventArgs e)
         {
+            dataGridViewClients.ClearSelection();
             LoadLog(GlobalLog);
         }
     }
